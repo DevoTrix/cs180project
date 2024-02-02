@@ -1,11 +1,4 @@
 require('dotenv').config();
-// imports
-// const { registerUser } = require('./helper/addtoDB');
-// const {validateUser, getId, verifyToken, tokenify} = require('./helper/login');
-// const {getUserEvent, getAllEvents, getSpecificEvent,markEventAsCompleted, markEventAsIncomplete, changeTitle, updateDescription,
-    // changeDate
-// } =require('./helper/getEvents')
-
 
 
 const express = require("express");
@@ -24,9 +17,5 @@ const mysql = require('mysql2');
 
 //final
 app.listen(5000, async ()=>{
-    // mongodb connect
-    const db = process.env.DBURL;
-    // mongoose.connect(db);
-    
     console.log("Server Running on http://localhost:5000")
 })
