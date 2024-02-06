@@ -88,6 +88,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
 export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -101,7 +103,8 @@ export default function Sidebar() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box id='calendar' sx={{ display: 'flex' }}>
+      
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -181,6 +184,7 @@ export default function Sidebar() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+
           <Calendar />
         {/* <Typography paragraph>
           <h1>wassup</h1>

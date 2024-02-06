@@ -1,5 +1,22 @@
-import './Calendar.css'
+import * as React from 'react';
+//import './Calendar.css'
+import FullCalendar from '@fullcalendar/react'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 
+export default class DemoApp extends React.Component {
+    render() {
+      return (
+        <FullCalendar
+          plugins={[ timeGridPlugin ]}
+          initialView="timeGridWeek"
+        />
+      )
+    }
+  }
+
+/*
 export default function Calendar() {
     return (
         <div className='calendar'>
@@ -160,3 +177,4 @@ export default function Calendar() {
         //Can i make a loop here with all the rows & time labels?
     )
 }
+*/
