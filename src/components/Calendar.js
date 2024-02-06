@@ -1,5 +1,27 @@
 import './Calendar.css'
 
+import React from 'react'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+
+// export default class DemoApp extends React.Component {
+//   render() {
+//     return (
+//       <FullCalendar
+//         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+//         headerToolbar={{
+//             left: 'prev,next today',
+//             center: 'title',
+//             right: 'dayGridMonth,timeGridWeek,timeGridDay'
+//         }}
+//         initialView='dayGridMonth'
+//       />
+//     )
+//   }
+// }
+
 export default function Calendar() {
     return (
         <div className='calendar'>
@@ -156,7 +178,7 @@ export default function Calendar() {
 
                 
 
-        </div>
+//         </div>
         //Can i make a loop here with all the rows & time labels?
     )
 }
