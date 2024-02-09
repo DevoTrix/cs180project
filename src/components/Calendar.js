@@ -15,4 +15,10 @@ export default class DemoApp extends React.Component {
     }
   }
 
-  
+  /* npm i --save
+    @fullcalendar/react
+    @fullcalendar/daygrid
+    @fullcalendar/timegrid
+    @fullcalendar/interaction
+    @fullcanedar/core
+  */
