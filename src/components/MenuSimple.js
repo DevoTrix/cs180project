@@ -159,10 +159,6 @@ function Styles() {
       }
     }
 
-    body {
-      background-color: #B2F7F7;
-    }
-
     .CustomMenuSimple {
       z-index: 1;
     }
