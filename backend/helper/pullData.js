@@ -3,8 +3,9 @@ const mysql = require("mysql2");
 
 
 // gets everything
-async function pullData(){
-    var query = "SELECT * FROM Classes";
+async function pullData(quarter){
+    var query = "SELECT * FROM Classes WHERE term = ?";
+    var values = [quarter]
     var conn = mysql.createConnection({
         connectionLimit: 10,
         host: process.env.host,
@@ -14,7 +15,7 @@ async function pullData(){
         database: process.env.dbName
     })
     var data;
-    await conn.promise().query(query)
+    await conn.promise().query(query, values)
         .then(([rows, fields]) => {
             data = JSON.stringify(rows);
         })    
@@ -26,18 +27,18 @@ async function pullData(){
 }
 
 // searches
-async function pullSpecData(specification){
+async function pullSpecData(specification, quarter){
     var query = "";
     const coursenumRegexPattern = "[a-zA-Z][a-zA-Z]([a-zA-Z]?)[0-9][0-9][0-9][a-cA-C]?";
     // if match 
     if(coursenumRegexPattern.test(specification)){
-        query = "SELECT * FROM Classes WHERE courseNum = ?"
+        query = "SELECT * FROM Classes WHERE courseNum = ? AND quarter = ?"
     }
     else{
-        query = "SELECT * FROM Classes WHERE courseName LIKE '%' ||  ? || '%'"
+        query = "SELECT * FROM Classes WHERE courseName LIKE '%' ||  ? || '%' AND quarter = ?"
     }
 
-    var values = [specification];
+    var values = [specification, quarter];
     var conn = mysql.createConnection({
         connectionLimit: 10,
         host: process.env.host,

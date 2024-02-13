@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const mysql = require('mysql2');
 
 app.post('/api/search', async (req, res)=>{
-    const spec = req.body;
+    const {spec, quarter} = req.body;
     if(!spec){
         try{
-            const data = await pullData();
+            const data = await pullData(quarter);
             res.status(200).json(data);
         }
         catch(error){
@@ -28,7 +28,7 @@ app.post('/api/search', async (req, res)=>{
     }
     else{
         try{
-            const data = await pullSpecData(spec);
+            const data = await pullSpecData(spec, quarter);
             res.status(200).json(data);
         }
         catch(error){
