@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -28,6 +29,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 
 import Calendar from './Calendar'
+import Mail from '@mui/icons-material/Mail';
 
 const drawerWidth = 250;
 const openedMixin = (theme) => ({
@@ -100,13 +102,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
   //Sets position(aka anchor) of the drawer
   // const [state, setState] = React.useState({
   //   left: false,
   // });
-  const handleSwipeableOpen = () => {
-    alert('opened')
+
+  //useState - to render stuff onto the screen via variables
+  const [schedule, setSchedule] = useState(null);
+
+
+  function renderSchedule() {
+    return (
+      <IconButton>
+        <MailIcon />
+      </IconButton>
+    )
   }
+
   const handleSwipeableClose = () => {
     alert('closed')
   }
@@ -119,13 +132,18 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+  function renderFunctions(index) {
+    if (index === 0) {setSchedule(renderSchedule())}
+    else if  (index === 1) { alert('Add/Del Coruses');}
+  }
+
   return (
     <Box id='calendar' sx={{ display: 'flex' }}>
       <CssBaseline />
 
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -136,7 +154,7 @@ export default function Sidebar() {
             }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
           </Typography>
@@ -174,7 +192,7 @@ export default function Sidebar() {
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
-                  onClick={handleSwipeableOpen}
+                  onClick={ () => renderFunctions(index) }
                 >
                   <ListItemIcon
                     sx={{
@@ -191,6 +209,7 @@ export default function Sidebar() {
             </ListItem>
           ))}
         </List>
+
 
         <Divider />
         <List>
@@ -236,6 +255,7 @@ export default function Sidebar() {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+          {schedule}
           <Calendar />
         {/* <Typography paragraph>
           <h1>wassup</h1>
@@ -244,3 +264,8 @@ export default function Sidebar() {
     </Box>
   );
 }
+
+/*
+  > work on toggling icon
+  > work on drawer appearing
+*/
