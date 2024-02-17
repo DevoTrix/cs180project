@@ -134,3 +134,8 @@ for entry in all_courses:
 
 cursor.close()
 db.close()
+
+# delte after use
+for filename in glob.glob(file_pattern):
+    os.remove(filename)
+    print(f"Deleted file: {filename}")
