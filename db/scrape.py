@@ -4,7 +4,7 @@ from datetime import datetime
 import glob
 # pip  intstall requests bs4 mysql.connector
 import subprocess
-script_path = './getdata.sh'
+script_path = './crawl.sh'
 result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
 
 
