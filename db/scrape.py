@@ -84,14 +84,12 @@ for entry in all_courses:
 
         # Process startTime if it exists and is not None
         if meeting_info.get("beginTime"):
-            # Assuming beginTime is in 'HHMM' format
             startTime = datetime.strptime(meeting_info["beginTime"], '%H%M').strftime('%H:%M:%S')
         else:
             startTime = None
 
         # Process endTime if it exists and is not None
         if meeting_info.get("endTime"):
-            # Assuming endTime is in 'HHMM' format
             endTime = datetime.strptime(meeting_info["endTime"], '%H%M').strftime('%H:%M:%S')
         else:
             endTime = None
@@ -102,7 +100,6 @@ for entry in all_courses:
         room = meeting_info.get("room")
         meeting_time = entry["meetingsFaculty"][0]["meetingTime"]
 
-        # List of all possible days
         meeting_time = entry["meetingsFaculty"][0]["meetingTime"]
 
         # Filter and format the days where meetings occur
@@ -116,7 +113,6 @@ for entry in all_courses:
     building = meeting_info["building"]
     room = meeting_info["room"]
 
-    # Insert data into the MySQL table
     insert_query = """
     INSERT INTO class (courseId, courseName, term, CourseNum, Subject, LectureType, instructor, SeatCapacity, Units, startTime, endTime, days, building, room)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -128,7 +124,7 @@ for entry in all_courses:
     try:
         cursor.execute(insert_query, values)
         db.commit()
-        print(f"Inserted course: {courseId}")  # Print confirmation of each insert
+        print(f"Inserted course: {courseId}")  
 
     except mysql.connector.Error as err:
         if err.errno == mysql.connector.errorcode.ER_DUP_ENTRY:
@@ -136,6 +132,5 @@ for entry in all_courses:
         else:
             print(f"Error inserting course {courseId}: {err}")
 
-# Close the cursor and database connection
 cursor.close()
 db.close()
