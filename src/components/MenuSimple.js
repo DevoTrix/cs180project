@@ -14,7 +14,7 @@ export default function MenuSimple() {
 
   return (
     <Dropdown>
-      <MenuButton className="TriggerButtonSimple">Quarters</MenuButton>
+      <MenuButton id="testButton" className="TriggerButtonSimple">Quarters</MenuButton>
 
       <Menu
         className="CustomMenuSimple"
@@ -23,12 +23,14 @@ export default function MenuSimple() {
         }}
       >
         <MenuItem
+          id="winter"
           className="CustomMenuSimple--item"
           onClick={createHandleMenuClick('Language settings')}
         >
           Winter 2024
         </MenuItem>
         <MenuItem
+          id = "spring"
           className="CustomMenuSimple--item"
           onClick={createHandleMenuClick('Log out')}
         >
