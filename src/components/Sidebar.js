@@ -101,24 +101,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
 
-  //Sets position(aka anchor) of the drawer
-  // const [state, setState] = React.useState({
-  //   left: false,
-  // });
+  //nested sidebar
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (isOpen) => {
+    setOpen(isOpen);
+  }
 
   //useState - to render stuff onto the screen via variables
-  const [schedule, setSchedule] = useState(null);
-
-
-  function renderSchedule() {
-    return (
-      <IconButton>
-        <MailIcon />
-      </IconButton>
-    )
-  }
+  // const [schedule, setSchedule] = useState(null);
+  // function renderSchedule() {
+  //   //return a drawer component that can toggle?
+  //   return (
+  //     <IconButton>
+  //       <MailIcon />
+  //     </IconButton>
+  //   )
+  // }
 
   const handleSwipeableClose = () => {
     alert('closed')
@@ -133,7 +133,8 @@ export default function Sidebar() {
   };
 
   function renderFunctions(index) {
-    if (index === 0) {setSchedule(renderSchedule())}
+    // if (index === 0) {setSchedule(renderSchedule())}
+    if (index === 0) { setOpen(true); }
     else if  (index === 1) { alert('Add/Del Coruses');}
   }
 
@@ -161,7 +162,9 @@ export default function Sidebar() {
         </Toolbar>
       </AppBar>
 
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" 
+        // open={open}
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -255,7 +258,21 @@ export default function Sidebar() {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-          {schedule}
+        <Box sx={{ overflow: 'auto' }}>
+          <List>
+            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+          {/* {schedule} */}
           <Calendar />
         {/* <Typography paragraph>
           <h1>wassup</h1>
