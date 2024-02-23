@@ -4,7 +4,7 @@ from datetime import datetime
 import glob
 # pip  intstall requests bs4 mysql.connector
 import subprocess
-script_path = './getdata.sh'
+script_path = './crawl.sh'
 result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
 
 
@@ -134,3 +134,8 @@ for entry in all_courses:
 
 cursor.close()
 db.close()
+
+# delte after use
+for filename in glob.glob(file_pattern):
+    os.remove(filename)
+    print(f"Deleted file: {filename}")
