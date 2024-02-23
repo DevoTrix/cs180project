@@ -11,12 +11,13 @@ export default function MenuSimple() {
     <Dropdown>
       <MenuButton className="TriggerButtonSimple">Quarters</MenuButton>
       <Menu
+        name = "selection"
         className="CustomMenuSimple"
         slotProps={{
           listbox: { className: 'CustomMenuSimple--listbox' },
         }}
       >
-        <Button href = "home">
+        <Button name = "button1" href = "home">
           <MenuItem
             className="CustomMenuSimple--item"
           >
@@ -24,7 +25,7 @@ export default function MenuSimple() {
           </MenuItem>
         </Button>
         
-        <Button href = "home">
+        <Button name = "button2" href = "home">
         <MenuItem
           id = "spring"
           className="CustomMenuSimple--item"
