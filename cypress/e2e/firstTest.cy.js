@@ -3,14 +3,17 @@ describe('functionality', () => {
     cy.visit('http://localhost:3000');
     cy.get('.base-MenuButton-root').should("exist").should('have.text', "Quarters");
     cy.get('[name = "selection"]').should("not.exist");
+  })
+
+  it('tests quarter button', () => {
+    cy.visit('http://localhost:3000');
+
     cy.get('.base-MenuButton-root').click();
     cy.get('[name = "selection"]').should("exist");
   })
-
+  
   it('redirects when winter button is clicked', () =>{
     cy.visit('http://localhost:3000');
-    cy.get('.base-MenuButton-root').should("exist").should('have.text', "Quarters");
-    cy.get('[name = "selection"]').should("not.exist");
     cy.get('.base-MenuButton-root').click();
     cy.get('[name = "selection"]').should("exist");
     cy.get('[name = "button1"]').click();
@@ -20,8 +23,6 @@ describe('functionality', () => {
   })
   it('redirects when spring button is clicked', () =>{
     cy.visit('http://localhost:3000');
-    cy.get('.base-MenuButton-root').should("exist").should('have.text', "Quarters");
-    cy.get('[name = "selection"]').should("not.exist");
     cy.get('.base-MenuButton-root').click();
     cy.get('[name = "selection"]').should("exist");
     cy.get('[name = "button2"]').click();
