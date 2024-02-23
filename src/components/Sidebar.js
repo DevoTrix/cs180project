@@ -19,10 +19,17 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import Tooltip from '@mui/material/Tooltip';
+import TodayIcon from '@mui/icons-material/Today';
+import RuleIcon from '@mui/icons-material/Rule';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ToggleOffIcon from '@mui/icons-material/ToggleOff';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+
+
 import Calendar from './Calendar'
 
 const drawerWidth = 250;
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -88,9 +95,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
 export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  //Sets position(aka anchor) of the drawer
+  // const [state, setState] = React.useState({
+  //   left: false,
+  // });
+  const handleSwipeableOpen = () => {
+    alert('opened')
+  }
+  const handleSwipeableClose = () => {
+    alert('closed')
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -101,8 +120,9 @@ export default function Sidebar() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box id='calendar' sx={{ display: 'flex' }}>
       <CssBaseline />
+
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -122,6 +142,7 @@ export default function Sidebar() {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -129,56 +150,90 @@ export default function Sidebar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['My Courses', 'Add/Delete Courses'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+              <Tooltip title={text} placement='right' arrow
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -7],
+                        },
+                      },
+                    ],
+                  },
                 }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
+                  onClick={handleSwipeableOpen}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {index % 2 === 0 ? <TodayIcon /> : <RuleIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
+
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Logout', 'Light/Dark Mode'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+              <Tooltip title={text} placement='right' arrow
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -7],
+                        },
+                      },
+                    ],
+                  },
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5,
+                    }}
+                  >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {index % 2 === 0 ? <LogoutIcon /> : <ToggleOffIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
       </Drawer>
+
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
           <Calendar />
