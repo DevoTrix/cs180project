@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from '@mui/material/Button';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { MenuButton } from '@mui/base/MenuButton';
@@ -6,36 +7,31 @@ import { Dropdown } from '@mui/base/Dropdown';
 import { useTheme } from '@mui/system';
 
 export default function MenuSimple() {
-  const createHandleMenuClick = (menuItem) => {
-    return () => {
-      console.log(`Clicked on ${menuItem}`);
-    };
-  };
-
   return (
     <Dropdown>
-      <MenuButton id="testButton" className="TriggerButtonSimple">Quarters</MenuButton>
-
+      <MenuButton className="TriggerButtonSimple">Quarters</MenuButton>
       <Menu
         className="CustomMenuSimple"
         slotProps={{
           listbox: { className: 'CustomMenuSimple--listbox' },
         }}
       >
-        <MenuItem
-          id="winter"
-          className="CustomMenuSimple--item"
-          onClick={createHandleMenuClick('Language settings')}
-        >
-          Winter 2024
-        </MenuItem>
+        <Button href = "home">
+          <MenuItem
+            className="CustomMenuSimple--item"
+          >
+            Winter 2024
+          </MenuItem>
+        </Button>
+        
+        <Button href = "home">
         <MenuItem
           id = "spring"
           className="CustomMenuSimple--item"
-          onClick={createHandleMenuClick('Log out')}
         >
           Spring 2024
         </MenuItem>
+        </Button>
       </Menu>
       <Styles />
     </Dropdown>
@@ -100,8 +96,8 @@ function Styles() {
 
     .CustomMenuSimple--item {
       list-style: none;
-      padding: 8px;
-      border-radius: 8px;
+      padding: 4px;
+      border-radius: 4px;
       cursor: default;
       user-select: none;
     }
@@ -125,8 +121,16 @@ function Styles() {
       color: ${isDarkMode ? grey[300] : grey[900]};
     }
 
+    .CustomMenuSimple--item:hover + .body{
+      background-color: lightblue;
+    }
     .TriggerButtonSimple {
-        float: right;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
       font-family: 'IBM Plex Sans', sans-serif;
       font-weight: 600;
       font-size: 2rem;
@@ -155,7 +159,6 @@ function Styles() {
         outline: none;
       }
     }
-
 
     .CustomMenuSimple {
       z-index: 1;
