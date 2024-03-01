@@ -7,6 +7,7 @@ import subprocess
 
 #to run the script
 script_path = './getdata.sh'
+
 result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
 
 def create_table(cursor):
@@ -171,3 +172,8 @@ for entry in all_courses:
 
 cursor.close()
 db.close()
+
+# delte after use
+for filename in glob.glob(file_pattern):
+    os.remove(filename)
+    print(f"Deleted file: {filename}")
