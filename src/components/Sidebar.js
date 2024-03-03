@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -32,7 +31,6 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Calendar from './Calendar'
 import Mail from '@mui/icons-material/Mail';
 
-import Mail from '@mui/icons-material/Mail';
 
 const drawerWidth = 250;
 const openedMixin = (theme) => ({
@@ -140,25 +138,6 @@ export default function Sidebar() {
   //   )
   // }
 
-  // const [open, setOpen] = React.useState(false);
-
-  //nested sidebar
-  const [open, setOpen] = useState(false);
-  const toggleDrawer = (isOpen) => {
-    setOpen(isOpen);
-  }
-
-  //useState - to render stuff onto the screen via variables
-  // const [schedule, setSchedule] = useState(null);
-  // function renderSchedule() {
-  //   //return a drawer component that can toggle?
-  //   return (
-  //     <IconButton>
-  //       <MailIcon />
-  //     </IconButton>
-  //   )
-  // }
-
   const handleSwipeableClose = () => {
     alert('closed')
   }
@@ -179,19 +158,12 @@ export default function Sidebar() {
     //else if  (index === 1) { alert('Add/Del Coruses');}
   }
 
-  function renderFunctions(index) {
-    // if (index === 0) {setSchedule(renderSchedule())}
-    if (index === 0) { setOpen(true); }
-    else if  (index === 1) { alert('Add/Del Coruses');}
-  }
-
   return (
     <Box id='calendar' sx={{ display: 'flex' }}>
       <CssBaseline />
 
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          {/* <IconButton
           {/* <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -204,16 +176,12 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton> */}
-          </IconButton> */}
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Drawer variant="permanent" 
-        // open={open}
-      >
       <Drawer variant="permanent" 
         // open={open}
       >
@@ -249,7 +217,6 @@ export default function Sidebar() {
                   }}
                   onClick={ () => {renderFunctions(index) 
                     setSecondaryDrawerOpen(true);} } // this will also open the sidebar for add/remove
-                  onClick={ () => renderFunctions(index) }
                 >
                   <ListItemIcon
                     sx={{
@@ -306,7 +273,6 @@ export default function Sidebar() {
             {/* put stuff here */}
           </Box>
         </SwipeableDrawer>
-
 
 
 
@@ -381,21 +347,6 @@ export default function Sidebar() {
           </List>
         </Box>
           {/* {schedule} */}
-        <Box sx={{ overflow: 'auto' }}>
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-          {/* {schedule} */}
           <Calendar />
         {/* <Typography paragraph>
           <h1>wassup</h1>
@@ -404,11 +355,6 @@ export default function Sidebar() {
     </Box>
   );
 }
-
-/*
-  > work on toggling icon
-  > work on drawer appearing
-*/
 
 /*
   > work on toggling icon
