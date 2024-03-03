@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -29,8 +28,6 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 
 import Calendar from './Calendar'
-import Mail from '@mui/icons-material/Mail';
-
 
 const drawerWidth = 250;
 const openedMixin = (theme) => ({
@@ -99,45 +96,27 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 
+
 export default function Sidebar() {
   const theme = useTheme();
-  // const [open, setOpen] = React.useState(false);
-
-  //nested sidebar
-  const [open, setOpen] = useState(false);
-
-  // added by Al
-  const [secondaryDrawerOpen, setSecondaryDrawerOpen] = useState(false); 
-
-  const toggleDrawer = (isOpen) => {
-    setOpen(isOpen);
-  }
-
-  // added by Al
+  const [open, setOpen] = React.useState(false);
+  const [showSearchBar, setShowSearchBar] = React.useState(false);
+  const [secondaryDrawerOpen, setSecondaryDrawerOpen] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('')
   const toggleSecondaryDrawer = (isOpen) => () => {
     setSecondaryDrawerOpen(isOpen);
     if (!isOpen) {
       setShowSearchBar(false); // hide the search bar when the drawer closes
     }
   };
-  
-
-  // added by Al
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const [showSearchBar, setShowSearchBar] = useState(false); // added by Al, this is for add/remove
-
-  //useState - to render stuff onto the screen via variables
-  // const [schedule, setSchedule] = useState(null);
-  // function renderSchedule() {
-  //   //return a drawer component that can toggle?
-  //   return (
-  //     <IconButton>
-  //       <MailIcon />
-  //     </IconButton>
-  //   )
-  // }
-
+ 
+  //Sets position(aka anchor) of the drawer
+  // const [state, setState] = React.useState({
+  //   left: false,
+  // });
+  const handleSwipeableOpen = () => {
+    //alert('opened')
+  }
   const handleSwipeableClose = () => {
     alert('closed')
   }
@@ -149,7 +128,7 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  //this might be the stuff
   function renderFunctions(index) {
     //if (index === 0) {setSchedule(renderSchedule())}
     //if (index === 0) { setOpen(true); }
@@ -157,14 +136,13 @@ export default function Sidebar() {
     if (index === 1) {setShowSearchBar(true);}
     //else if  (index === 1) { alert('Add/Del Coruses');}
   }
-
   return (
     <Box id='calendar' sx={{ display: 'flex' }}>
       <CssBaseline />
-
+    
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          {/* <IconButton
+          <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -175,16 +153,14 @@ export default function Sidebar() {
             }}
           >
             <MenuIcon />
-          </IconButton> */}
+          </IconButton>
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Drawer variant="permanent" 
-        // open={open}
-      >
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -215,8 +191,9 @@ export default function Sidebar() {
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
+                  //onClick={handleSwipeableOpen}
                   onClick={ () => {renderFunctions(index) 
-                    setSecondaryDrawerOpen(true);} } // this will also open the sidebar for add/remove
+                    setSecondaryDrawerOpen(true);} }
                 >
                   <ListItemIcon
                     sx={{
@@ -233,8 +210,7 @@ export default function Sidebar() {
             </ListItem>
           ))}
         </List>
-
-        {/* second sidebar */}
+          {/* second sidebar */}
         <SwipeableDrawer 
           anchor="left"
           open={secondaryDrawerOpen}
@@ -273,10 +249,7 @@ export default function Sidebar() {
             {/* put stuff here */}
           </Box>
         </SwipeableDrawer>
-
-
-
-
+           
         <Divider />
         <List>
           {['Logout', 'Light/Dark Mode'].map((text, index) => (
@@ -316,37 +289,11 @@ export default function Sidebar() {
               </Tooltip>
             </ListItem>
           ))}
-        </List>
+        </List>        
       </Drawer>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Box sx={{ overflow: 'auto',
-      
-        flexGrow: 1,
-        p: 3,
-        transition: (theme) => theme.transitions.create('margin', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        
-        // Adjust marginLeft to account for secondary panel
-        marginLeft: secondaryDrawerOpen ? drawerWidth + 250 : 5,
-      }}>
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-          {/* {schedule} */}
           <Calendar />
         {/* <Typography paragraph>
           <h1>wassup</h1>
@@ -355,8 +302,3 @@ export default function Sidebar() {
     </Box>
   );
 }
-
-/*
-  > work on toggling icon
-  > work on drawer appearing
-*/
