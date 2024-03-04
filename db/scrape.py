@@ -4,19 +4,57 @@ from datetime import datetime
 import glob
 # pip  intstall requests bs4 mysql.connector
 import subprocess
+
+#to run the script
 script_path = './getdata.sh'
+
 result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
+
+def create_table(cursor):
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS class (
+        courseId VARCHAR(20) NOT NULL PRIMARY KEY,
+        courseName VARCHAR(500),
+        term VARCHAR(30),
+        CourseNum VARCHAR(15),
+        Subject VARCHAR(100),
+        LectureType VARCHAR(20),
+        instructor VARCHAR(500),
+        SeatCapacity INT,
+        Units INT,
+        startTime TIME,
+        endTime TIME,
+        days SET('Mon','Tue','Wed','Thu','Fri','Sat','Sun'),
+        building VARCHAR(50),
+        room VARCHAR(20)
+    );
+    """
+    cursor.execute(create_table_query)
+    print("Table 'class' created successfully.")
 
 
 
 #send it to the my sql database 
 db = mysql.connector.connect(
     host="localhost", #since we are not using a server as of now
-    user="test",
-    password="test",
-    database="schedule"
+    user="",
+    password="",  #change to whatever you used for mysql.
+    database=""
 
 )
+
+#creates a table called class
+cursor = db.cursor()
+user_response = input("Do you want to create the 'class' table? (yes/no): ").strip().lower()
+if user_response == 'yes':
+    create_table(cursor)
+else:
+    print("Table creation skipped.")
+
+# Close the cursor and connection
+cursor.close()
+db.close()
+
 file_pattern = 'data_*.json'
 all_courses = []
 
@@ -48,7 +86,6 @@ print(f"Total number of courses loaded: {len(all_courses)}")  # Print the total 
 #     ->     room INTEGER,
 
 
-cursor = db.cursor()
 day_mapping = {
     'monday': 'Mon',
     'tuesday': 'Tue',
@@ -58,7 +95,8 @@ day_mapping = {
     'saturday': 'Sat',
     'sunday': 'Sun'
 }
-
+#reopen
+cursor = db.cursor()
 
 # SQL command to insert data currently using dummy data
 for entry in all_courses:
@@ -134,3 +172,8 @@ for entry in all_courses:
 
 cursor.close()
 db.close()
+
+# delte after use
+for filename in glob.glob(file_pattern):
+    os.remove(filename)
+    print(f"Deleted file: {filename}")
