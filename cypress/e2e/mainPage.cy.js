@@ -1,27 +1,37 @@
 describe("drawer tests", () => {
-  // it('renders the initial view of screen', () => {
-  //   cy.visit('http://localhost:3000/home');
-  //   cy.get('.MuiToolbar-root > .MuiButtonBase-root').should("not.be.hidden");
-  // })
-  // it('opens drawer', () => {
-  //   cy.visit('http://localhost:3000/home');
-  //   cy.get(':nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root').should('be.hidden')
-  //   cy.get('.MuiToolbar-root > .MuiButtonBase-root').click();
-  //   cy.get(':nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root').should('not.be.hidden')
-  // })
+  it("renders the initial view of screen", () => {
+    cy.visit("http://localhost:3000/home");
+    cy.get(".MuiToolbar-root > .MuiButtonBase-root").should("not.be.hidden");
+  });
+  it("opens drawer", () => {
+    cy.visit("http://localhost:3000/home");
+    cy.get(
+      ":nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root",
+    ).should("be.hidden");
+    cy.get(".MuiToolbar-root > .MuiButtonBase-root").click();
+    cy.get(
+      ":nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root",
+    ).should("not.be.hidden");
+  });
   it("My Courses should open another bar containing my classes over calendar when clicked", () => {
     cy.visit("http://localhost:3000/home");
+    cy.get(".MuiDrawer-modal > .MuiPaper-root").should("be.hidden");
+    cy.get(":nth-child(3) > :nth-child(1) > .MuiButtonBase-root").click();
+    cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.log("still needs implementing");
-    // test if event is added
-    //test if event is repeating correctly
+    //  test if classes are contained in the bar
   });
   it("all courses should open another bar containing all classes over calendar when clicked", () => {
     cy.visit("http://localhost:3000/home");
+    cy.get(".MuiDrawer-modal > .MuiPaper-root").should("be.hidden");
+    cy.get("input").should("not.exist");
+    cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
+    cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
+    cy.get("input").should("exist");
     cy.log("still needs implementing");
-    // test if event is added
-    //test if event is repeating correctly
+    //  test if classes are contained in the bar
   });
-  it("Add / delete should open another bar containing list view of added classesover calendar when clicked", () => {
+  it("Add / delete should add the event to the calendar", () => {
     cy.visit("http://localhost:3000/home");
     cy.log("still needs implementing");
     // test if event is added
@@ -68,8 +78,6 @@ describe("calendar", () => {
     it("changes from light to dark correctly and vice versa", () => {
       cy.visit("http://localhost:3000/home");
       cy.log("still needs implementing");
-      // test if event is added
-      //test if event is repeating correctly
     });
   });
 });
