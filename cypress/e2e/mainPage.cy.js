@@ -28,6 +28,10 @@ describe("drawer tests", () => {
     cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.get("input").should("exist");
+    cy.get("input").type("cs111").type("{enter}");
+    cy.get(
+      ":nth-child(2) > .MuiPaper-root > .css-1jir1my-MuiTypography-root",
+    ).should("exist");
     cy.log("still needs implementing");
     //  test if classes are contained in the bar
   });
