@@ -290,7 +290,9 @@ export default function Sidebar() {
               </Tooltip>
             </ListItem>
           ))}
-        </List>        
+        </List> 
+        <Divider />
+        <SearchBar></SearchBar>       
       </Drawer>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
