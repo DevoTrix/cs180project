@@ -101,12 +101,22 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [showSearchBar, setShowSearchBar] = React.useState(false);
+  const [secondaryDrawerOpen, setSecondaryDrawerOpen] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('')
+  const toggleSecondaryDrawer = (isOpen) => () => {
+    setSecondaryDrawerOpen(isOpen);
+    if (!isOpen) {
+      setShowSearchBar(false); // hide the search bar when the drawer closes
+    }
+  };
+ 
   //Sets position(aka anchor) of the drawer
   // const [state, setState] = React.useState({
   //   left: false,
   // });
   const handleSwipeableOpen = () => {
-    alert('opened')
+    //alert('opened')
   }
   const handleSwipeableClose = () => {
     alert('closed')
@@ -119,11 +129,18 @@ export default function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  //this might be the stuff
+  function renderFunctions(index) {
+    //if (index === 0) {setSchedule(renderSchedule())}
+    //if (index === 0) { setOpen(true); }
+    if (index === 0) {setSecondaryDrawerOpen(true);}
+    if (index === 1) {setShowSearchBar(true);}
+    //else if  (index === 1) { alert('Add/Del Coruses');}
+  }
   return (
     <Box id='calendar' sx={{ display: 'flex' }}>
       <CssBaseline />
-
+    
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -175,7 +192,9 @@ export default function Sidebar() {
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
-                  onClick={handleSwipeableOpen}
+                  //onClick={handleSwipeableOpen}
+                  onClick={ () => {renderFunctions(index) 
+                    setSecondaryDrawerOpen(true);} }
                 >
                   <ListItemIcon
                     sx={{
@@ -192,7 +211,46 @@ export default function Sidebar() {
             </ListItem>
           ))}
         </List>
-
+          {/* second sidebar */}
+        <SwipeableDrawer 
+          anchor="left"
+          open={secondaryDrawerOpen}
+          onClose={toggleSecondaryDrawer(false)}
+          onOpen={toggleSecondaryDrawer(true)}
+          sx={{
+            '& .MuiDrawer-paper': {
+              width: 250,
+              marginLeft: "65px",
+              marginTop: "65px",
+              transition: (theme) => theme.transitions.create('transform', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+              }),
+              transform: secondaryDrawerOpen
+                ? `translateX(${open ? drawerWidth + 50 : 50}px)` // position adjustment based on the drawer state
+                : 'translateX(0)',
+            },
+          }}
+          ModalProps={{ keepMounted: true }} // this helps with keeping the focus within the drawer but keeps the rest of the page interactive
+          BackdropProps={{ invisible: true }} // makes the backdrop invisible
+        >
+          <Box role="presentation">
+            {/* Search Bar */}
+            {/*<Searchbar setSearchTerm={setSearchTerm} />*/} {/* <--- uncomment that for search bar for all buttons */}
+            {showSearchBar && (
+              <input 
+                type="search" 
+                placeholder="Search for Classes" 
+                onChange={(e) => setSearchTerm(e.target.value)} 
+                style={{ width: '100%', padding: '10px', margin: '10px 0', boxSizing: 'border-box' }}
+              />
+            )}
+            <Typography variant="h6" noWrap component="div">
+            </Typography>
+            {/* put stuff here */}
+          </Box>
+        </SwipeableDrawer>
+           
         <Divider />
         <List>
           {['Logout', 'Light/Dark Mode'].map((text, index) => (
@@ -232,9 +290,7 @@ export default function Sidebar() {
               </Tooltip>
             </ListItem>
           ))}
-          <Divider />
-          <SearchBar></SearchBar>
-        </List>
+        </List>        
       </Drawer>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
