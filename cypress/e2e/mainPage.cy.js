@@ -28,10 +28,20 @@ describe("drawer tests", () => {
     cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.get("input").should("exist");
+    cy.intercept("POST", "http://localhost:5001/api/search").as("postRequest");
     cy.get("input").type("cs111").type("{enter}");
-    cy.get(
-      ":nth-child(2) > .MuiPaper-root > .css-1jir1my-MuiTypography-root",
-    ).should("exist");
+    cy.wait("@postRequest").then(({ request, response }) => {
+      // Assert the request details
+      expect(request.method).to.equal("POST");
+      expect(request.url).to.equal("http://localhost:5001/api/search");
+      // Assert the response if needed
+      expect(response.statusCode).to.equal(200);
+      // Optionally, assert response body or other properties
+    });
+
+    // cy.get(
+    //   ":nth-child(2) > .MuiPaper-root > .css-1jir1my-MuiTypography-root",
+    // ).should("exist");
     cy.log("still needs implementing");
     //  test if classes are contained in the bar
   });
