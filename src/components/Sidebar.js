@@ -114,13 +114,7 @@ export default function Sidebar() {
   // const [state, setState] = React.useState({
   //   left: false,
   // });
-  const handleSwipeableOpen = () => {
-    //alert('opened')
-  }
-  const handleSwipeableClose = () => {
-    alert('closed')
-  }
-
+  
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -191,7 +185,6 @@ export default function Sidebar() {
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
-                  //onClick={handleSwipeableOpen}
                   onClick={ () => {renderFunctions(index) 
                     setSecondaryDrawerOpen(true);} }
                 >
