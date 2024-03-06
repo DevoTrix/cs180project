@@ -141,7 +141,6 @@ export default function Sidebar() {
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
           </Typography>
-            <SearchBar></SearchBar>
         </Toolbar>
       </AppBar>
 
@@ -233,6 +232,8 @@ export default function Sidebar() {
               </Tooltip>
             </ListItem>
           ))}
+          <Divider />
+          <SearchBar></SearchBar>
         </List>
       </Drawer>
 

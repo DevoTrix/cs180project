@@ -1,19 +1,23 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
-
 import axios from "axios";
-import Button from '@mui/material/Button';
-
-
 
 export default function SearchBar() {
-  const [name, setName] = React.useState('Cat in the Hat');
-
-  const [spec, setSpec] = React.useState('cs111');
+    const CHARACTER_LIMIT = 15;
+  const [spec, setSpec] = React.useState('');
   const [quarter, setQuarter] = React.useState('spring')
   const requestData = {spec, quarter};
+
+  const handleSpecChange = (event) => {
+    setSpec(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      getSearchQuery();
+    }
+  };
 
   const getSearchQuery = () => {
     axios.post('http://localhost:5001/api/search', requestData)
@@ -26,26 +30,19 @@ export default function SearchBar() {
 
   return (
     <Box
-      component="form"
       sx={{
         '& > :not(style)': { m: 1, width: '25ch' },
       }}
-      noValidate
-      autoComplete="off"
     >
-      <TextField
-        id="outlined-controlled"
-        label="Controlled"
-        value={name}
-        onChange={(event) => {
-          setName(event.target.value);
-        }}
-      />
-      <Button 
-        onClick={getSearchQuery}
-        variant="contained">
-            Test Backend API
-      </Button>
+        <TextField
+            id="outlined-size-small"
+            label="Search Classes"
+            variant="outlined"
+            size= "small"
+            value={spec}
+            onChange={handleSpecChange}
+            onKeyDown={handleKeyDown}
+        />
     </Box>
   );
 }
