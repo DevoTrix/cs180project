@@ -26,7 +26,7 @@ app.post("/api/search", async (req, res) => {
   });
   if (!spec) {
     try {
-      const data = await pullData(quarter);
+      const data = await pullData(conn, quarter);
       res.status(200).json(data);
     } catch (error) {
       res.status(404).send({ message: "Failed" });
