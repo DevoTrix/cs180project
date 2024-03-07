@@ -81,7 +81,8 @@ export default function SearchedClass(course) {
         <Typography paddingTop={"1ch"} paddingBottom={".4ch"}>
           <ImportContactsIcon sx={{ fontSize: ".9m", marginY: "-5px" }} />{" "}
           {course.data.Subject}
-          {course.data.CourseNum}
+          {course.data.CourseNum} - {" "}
+          {course.data.LectureType}
         </Typography>
         <Typography
           sx={{ fontSize: "0.9em", opacity: 0.8 }}
