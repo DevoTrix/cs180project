@@ -5,12 +5,14 @@ import { Typography, Divider } from "@mui/material";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import ClassModal from "./ClassModal";
 
 import { useState, useEffect } from "react";
 
 export default function SearchedClass(course) {
   const [convertedStart, setConvertedStart] = React.useState("");
   const [convertedEnd, setConvertedEnd] = React.useState("");
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   useEffect(() => {
     const convertTime = () => {
@@ -46,6 +48,14 @@ export default function SearchedClass(course) {
     convertTime();
   }, []); // Empty dependency array means this effect runs once
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -55,7 +65,9 @@ export default function SearchedClass(course) {
           width: 600,
           height: 95,
         },
+        cursor: "pointer", // Add cursor style for clickability
       }}
+      onClick={!isModalOpen ? openModal : undefined} // Only assign onClick if isModalOpen is false
     >
       <Paper
         elevation={1}
@@ -87,6 +99,14 @@ export default function SearchedClass(course) {
           {course.data.days}
         </Typography>
       </Paper>
+      {/* Render ClassModal if isModalOpen is true */}
+      {isModalOpen && (
+        <ClassModal
+          course={course}
+          handleOnClose={closeModal} // Pass the onClose function to close the modal
+          isModalOpen = {isModalOpen}
+        />
+      )}
     </Box>
   );
 }
