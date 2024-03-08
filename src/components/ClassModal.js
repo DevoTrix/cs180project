@@ -13,6 +13,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const style = {
   position: "absolute",
@@ -64,6 +65,20 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
     convertTime();
   }, []); // Empty dependency array means this effect runs once
 
+  const addCourseCookie= () => {
+    //course is stored inside cookie as a JSON
+    //You need to use JSON.parse to retrieve the cookie as an object
+    Cookies.set(course.data.courseId, JSON.stringify(course));  //Sets cookie course as JSON data
+    console.log(course)                                         //Log the course as an object
+    console.log(JSON.stringify(course));                        //Log course as a JSON (This is what is inside the cookie)
+    console.log(JSON.parse(Cookies.get(course.data.courseId))); //Log the course as an object FROM within the coookie
+  };
+
+  const removeCourseCookie = () => {
+    //Deletes the cookie by courseId
+    Cookies.remove(course.data.courseId)
+  };
+
   return (
     <Modal
       aria-labelledby="modal-modal-title"
@@ -105,10 +120,10 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
           {course.data.courseId}
         </Typography>
         <Typography sx={{ textAlign: "right" }}>
-          <IconButton>
+          <IconButton onClick={removeCourseCookie}>
             <RemoveIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={addCourseCookie}>
             <AddIcon />
           </IconButton>
         </Typography>
