@@ -2,17 +2,24 @@ import mysql.connector
 import json
 from datetime import datetime
 import glob
-# pip  intstall requests bs4 mysql.connector
 import subprocess
+import os
+from dotenv import load_dotenv
+load_dotenv()
+script_path = './crawl.sh'
+user_ = input("Scrape? ").strip().lower()
+if user_ == 'yes' or user_ == "y" :
+    try:
+        result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
+    except Exception as err:
+        print(f"Did you make the script runnable. - {err}")
+else:
+    print("Scrape skipped.")
 
-#to run the script
-script_path = './getdata.sh'
-
-result = subprocess.run([script_path], stdout=subprocess.PIPE, text=True)
 
 def create_table(cursor):
     create_table_query = """
-    CREATE TABLE IF NOT EXISTS class (
+    CREATE TABLE IF NOT EXISTS Class (
         courseId VARCHAR(20) NOT NULL PRIMARY KEY,
         courseName VARCHAR(500),
         term VARCHAR(30),
@@ -34,26 +41,26 @@ def create_table(cursor):
 
 
 
-#send it to the my sql database 
 db = mysql.connector.connect(
-    host="localhost", #since we are not using a server as of now
-    user="",
-    password="",  #change to whatever you used for mysql.
-    database=""
-
+    host=os.getenv('host'),
+    user=os.getenv('user'),
+    password=os.getenv('password'),  
+    database=os.getenv('database')
 )
 
-#creates a table called class
-cursor = db.cursor()
-user_response = input("Do you want to create the 'class' table? (yes/no): ").strip().lower()
-if user_response == 'yes':
+#creates a table called Class
+try: 
+    cursor = db.cursor()
+except Exception as err:
+    print(f"Maybe a pip issue or mysql isnt running - {err}")
+
+
+user_response = input("Do you want to create the 'Class' table? (yes/no): ").strip().lower()
+if user_response == 'yes' or user_response == "y" :
     create_table(cursor)
 else:
     print("Table creation skipped.")
 
-# Close the cursor and connection
-cursor.close()
-db.close()
 
 file_pattern = 'data_*.json'
 all_courses = []
@@ -69,23 +76,6 @@ for filename in glob.glob(file_pattern):
 print(f"Total number of courses loaded: {len(all_courses)}")  # Print the total number of courses loaded
 
 
-# query struct
-#     ->     id INTEGER AUTO_INCREMENT,
-#     ->     courseName VARCHAR(50),
-#     ->     term VARCHAR(30),
-#     ->     CourseNum VARCHAR(15),
-#     ->     Subject VARCHAR(100),
-#     -> Lecture    LectureType VARCHAR(20),
-#     ->     instructor VARCHAR(30),
-#     ->     SeatCapacity INTEGER,
-#     ->     Units INTEGER,
-#     ->     startTime TIME, -- Assuming these represent times of the day
-#     ->     endTime TIME,
-#     ->     days SET('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'), -- Using SET for days
-#     ->     building VARCHAR(50),
-#     ->     room INTEGER,
-
-
 day_mapping = {
     'monday': 'Mon',
     'tuesday': 'Tue',
@@ -95,8 +85,6 @@ day_mapping = {
     'saturday': 'Sat',
     'sunday': 'Sun'
 }
-#reopen
-cursor = db.cursor()
 
 # SQL command to insert data currently using dummy data
 for entry in all_courses:
@@ -173,7 +161,7 @@ for entry in all_courses:
 cursor.close()
 db.close()
 
-# delte after use
+# delete after use
 for filename in glob.glob(file_pattern):
     os.remove(filename)
     print(f"Deleted file: {filename}")
