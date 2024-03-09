@@ -21,8 +21,8 @@ app.post("/api/search", async (req, res) => {
     host: process.env.host,
     port: process.env.dbPort,
     user: process.env.user,
-    password: process.env.pswd,
-    database: process.env.dbName,
+    password: process.env.password,
+    database: process.env.database,
   });
   if (!spec) {
     try {

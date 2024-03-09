@@ -48,5 +48,3 @@ while [ $page_offset -lt $total_records ]; do
   # Please don't DDOS the server
   sleep 5
 done
-
-echo "Data collection complete. Data saved to separate files."
