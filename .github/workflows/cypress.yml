@@ -8,7 +8,7 @@ jobs:
     # Also see warning here https://github.com/cypress-io/github-action#parallel
     services:
       mysql:
-        image: mysql:latest
+        image: mysql
         env:
           MYSQL_ROOT_PASSWORD: ${{secrets.DB_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.DB_NAME }}
