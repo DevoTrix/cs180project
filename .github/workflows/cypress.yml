@@ -10,10 +10,8 @@ jobs:
       mysql:
         image: mysql
         env:
-          MYSQL_ROOT_PASSWORD: ${{secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
-          MYSQL_USER: ${{ secrets.DB_USER }}
-          MYSQL_PASSWORD: ${{secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: Buddy-71597
+          MYSQL_DATABASE: my_db
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -61,7 +59,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build Docker Image
-        run: docker build -t my-cypress-tests .
+        run: docker build -t my-cypress-tests -f ../DockerFile .
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
