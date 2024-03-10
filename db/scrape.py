@@ -140,7 +140,7 @@ for entry in all_courses:
     room = meeting_info["room"]
 
     insert_query = """
-    INSERT INTO class (courseId, courseName, term, CourseNum, Subject, LectureType, instructor, SeatCapacity, Units, startTime, endTime, days, building, room)
+    INSERT INTO Class (courseId, courseName, term, CourseNum, Subject, LectureType, instructor, SeatCapacity, Units, startTime, endTime, days, building, room)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
