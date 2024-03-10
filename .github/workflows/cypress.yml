@@ -6,6 +6,16 @@ jobs:
     # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
     # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
     # Also see warning here https://github.com/cypress-io/github-action#parallel
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ROOT_PASSWORD: Buddy-71597
+          MYSQL_DATABASE: my_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     strategy:
       fail-fast: false # https://github.com/cypress-io/github-action/issues/48
       matrix:
@@ -13,6 +23,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Docker Image
+        run: docker build -t my-cypress-tests -f DockerFile .
       - name: Cypress run
         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
@@ -31,11 +45,21 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          host: ${{ secrets.DB_HOST }}
+          dbPort: ${{ secrets.DB_PORT }}
+          user: ${{ secrets.DB_USER }}
+          pswd: ${{ secrets.DB_PASSWORD }}
+          dbName: ${{ secrets.DB_NAME }}
   cypress-run2:
     runs-on: ubuntu-22.04
     steps:
+    
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build Docker Image
+        run: docker build -t my-cypress-tests -f DockerFile .
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -47,3 +71,8 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          host: ${{ secrets.DB_HOST }}
+          dbPort: ${{ secrets.DB_PORT }}
+          user: ${{ secrets.DB_USER }}
+          pswd: ${{ secrets.DB_PASSWORD }}
+          dbName: ${{ secrets.DB_NAME }}

@@ -1,4 +1,5 @@
 #!/bin/bash
+source ../.env
 
 base_url="https://registrationssb.ucr.edu/StudentRegistrationSsb/ssb/searchResults/searchResults"
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0"
@@ -10,8 +11,7 @@ x_requested_with="XMLHttpRequest"
 dnt="1"
 connection="keep-alive"
 referer="https://registrationssb.ucr.edu/StudentRegistrationSsb/ssb/classSearch/classSearch"
-# Session cookie here ... Add cookie before running
-cookie=""
+cookie=$cookie
 sec_fetch_dest="empty"
 sec_fetch_mode="cors"
 sec_fetch_site="same-origin"
@@ -21,12 +21,11 @@ page_offset=0
 page_max_size=500
 total_records=11000  # All class records listed
 
-# No need to clear the file at the start
 
 while [ $page_offset -lt $total_records ]; do
-  filename="data_${page_offset}.jsonl"  # Unique filename for each iteration
+  filename="data_${page_offset}.json"  # Unique filename for each iteration
 
-  response=$(curl "$base_url?txt_term=202410&startDatepicker=&endDatepicker=&uniqueSessionId=9fsv21708118001908&pageOffset=$page_offset&pageMaxSize=$page_max_size&sortColumn=subjectDescription&sortDirection=asc" \
+  response=$(curl "$base_url?txt_term=202420&startDatepicker=&endDatepicker=&uniqueSessionId=9fsv21708118001908&pageOffset=$page_offset&pageMaxSize=$page_max_size&sortColumn=subjectDescription&sortDirection=asc" \
     -H "User-Agent: $user_agent" \
     -H "Accept: $accept" \
     -H "Accept-Language: $accept_language" \
@@ -49,5 +48,3 @@ while [ $page_offset -lt $total_records ]; do
   # Please don't DDOS the server
   sleep 5
 done
-
-echo "Data collection complete. Data saved to separate files."

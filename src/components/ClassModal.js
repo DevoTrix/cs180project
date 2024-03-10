@@ -14,6 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import EventEmitter from './EventEmitter';
 
 const style = {
   position: "absolute",
@@ -72,11 +73,15 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
     console.log(course)                                         //Log the course as an object
     console.log(JSON.stringify(course));                        //Log course as a JSON (This is what is inside the cookie)
     console.log(JSON.parse(Cookies.get(course.data.courseId))); //Log the course as an object FROM within the coookie
+    EventEmitter.dispatch('courseUpdated');
+
   };
 
   const removeCourseCookie = () => {
     //Deletes the cookie by courseId
     Cookies.remove(course.data.courseId)
+    EventEmitter.dispatch('courseUpdated');
+
   };
 
   return (
