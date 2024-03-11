@@ -48,31 +48,5 @@ jobs:
           host: ${{ secrets.DB_HOST }}
           dbPort: ${{ secrets.DB_PORT }}
           user: ${{ secrets.DB_USER }}
-          pswd: ${{ secrets.DB_PASSWORD }}
-          dbName: ${{ secrets.DB_NAME }}
-  cypress-run2:
-    runs-on: ubuntu-22.04
-    steps:
-    
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build Docker Image
-        run: docker build -t my-cypress-tests -f DockerFile .
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          component: true
-          record: true
-        env:
-          # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
-          # in GitHub repo → Settings → Secrets → Actions
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          host: ${{ secrets.DB_HOST }}
-          dbPort: ${{ secrets.DB_PORT }}
-          user: ${{ secrets.DB_USER }}
-          pswd: ${{ secrets.DB_PASSWORD }}
-          dbName: ${{ secrets.DB_NAME }}
+          password: ${{ secrets.DB_PASSWORD }}
+          database: ${{ secrets.DB_NAME }}
