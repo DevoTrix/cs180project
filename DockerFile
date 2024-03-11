@@ -11,11 +11,6 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
-ENV host=""
-ENV dbPort=3306
-ENV user='root'
-ENV pswd="Buddy-71597"
-ENV dbName='my_db'
 # add app
 COPY . ./
 

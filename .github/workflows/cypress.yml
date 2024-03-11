@@ -10,8 +10,9 @@ jobs:
       mysql:
         image: mysql
         env:
-          MYSQL_ROOT_PASSWORD: Buddy-71597
-          MYSQL_DATABASE: my_db
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DB_NAME }}
+          MYSQL_HOST: ${{ secrets.DB_HOST }}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
