@@ -107,8 +107,10 @@ export default function Sidebar() {
     //console.log(isOpen)
 
     if (!isOpen) {
-      setShowSearchBar(false); // hide the search bar when the drawer closes
-      //console.log(isOpen)
+      //[Bug Soln] : delays MyClasses list from showing immediately after clicking off searchbar page
+      setTimeout(() => {
+        setShowSearchBar(false); // hide the search bar when the drawer closes
+      }, 500)
     }
   };
 
@@ -136,10 +138,12 @@ export default function Sidebar() {
     //if (index === 0) { setOpen(true); }
     if (index === 0) {
       setSecondaryDrawerOpen(true);
+      setShowSearchBar(false);
       //console.log('inside render: set to true')
     }
     if (index === 1) {
       setShowSearchBar(true);
+      setSecondaryDrawerOpen(false);
       //console.log("index is 1: ", index)
     }
     //else if  (index === 1) { alert('Add/Del Coruses');}
@@ -208,7 +212,6 @@ export default function Sidebar() {
                   }}
                   //onClick={handleSwipeableOpen}
                   onClick={() => {
-                    //console.log('onclick true')
                     renderFunctions(index);
                     setSecondaryDrawerOpen(true);
                   }}
@@ -265,7 +268,7 @@ export default function Sidebar() {
               // />
               <SearchBar />
             )}
-            {/* secondaryDrawerOpen var here */}
+            {/* secondaryDrawerOpen var here : My Classes List*/}
             {!showSearchBar && <ListClasses />}
             <Typography variant="h6" noWrap component="div"></Typography>
             {/* put stuff here */}
