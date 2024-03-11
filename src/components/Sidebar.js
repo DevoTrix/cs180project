@@ -19,6 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import SearchBar from "./SearchBar";
+import ListClasses from "./ListClasses";
 
 import Tooltip from "@mui/material/Tooltip";
 import TodayIcon from "@mui/icons-material/Today";
@@ -103,8 +104,11 @@ export default function Sidebar() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const toggleSecondaryDrawer = (isOpen) => () => {
     setSecondaryDrawerOpen(isOpen);
+    //console.log(isOpen)
+
     if (!isOpen) {
       setShowSearchBar(false); // hide the search bar when the drawer closes
+      //console.log(isOpen)
     }
   };
 
@@ -132,9 +136,11 @@ export default function Sidebar() {
     //if (index === 0) { setOpen(true); }
     if (index === 0) {
       setSecondaryDrawerOpen(true);
+      //console.log('inside render: set to true')
     }
     if (index === 1) {
       setShowSearchBar(true);
+      //console.log("index is 1: ", index)
     }
     //else if  (index === 1) { alert('Add/Del Coruses');}
   }
@@ -202,6 +208,7 @@ export default function Sidebar() {
                   }}
                   //onClick={handleSwipeableOpen}
                   onClick={() => {
+                    //console.log('onclick true')
                     renderFunctions(index);
                     setSecondaryDrawerOpen(true);
                   }}
@@ -258,6 +265,8 @@ export default function Sidebar() {
               // />
               <SearchBar />
             )}
+            {/* secondaryDrawerOpen var here */}
+            {!showSearchBar && <ListClasses />}
             <Typography variant="h6" noWrap component="div"></Typography>
             {/* put stuff here */}
           </Box>
