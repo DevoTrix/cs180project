@@ -16,33 +16,35 @@ export default function SearchedClass(course) {
 
   useEffect(() => {
     const convertTime = () => {
-      //Convert Start Time
-      const [start_hours, start_minutes] = course.data.startTime.split(":");
-      const startTmp = new Date(1970, 0, 1, start_hours, start_minutes);
+      if (course.data.startTime && course.data.endTime) {
+        //Convert Start Time
+        const [start_hours, start_minutes] = course.data.startTime.split(":");
+        const startTmp = new Date(1970, 0, 1, start_hours, start_minutes);
 
-      // Format the time using Intl.DateTimeFormat
-      const startTime = startTmp.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      });
+        // Format the time using Intl.DateTimeFormat
+        const startTime = startTmp.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        });
 
-      const [baseStart, upperStartMeridiem] = startTime.split(" ");
-      setConvertedStart(`${baseStart}${upperStartMeridiem.toLowerCase()}`);
+        const [baseStart, upperStartMeridiem] = startTime.split(" ");
+        setConvertedStart(`${baseStart}${upperStartMeridiem.toLowerCase()}`);
 
-      //Convert End Time
-      const [end_hours, end_minutes] = course.data.endTime.split(":");
-      const endTmp = new Date(1970, 0, 1, end_hours, end_minutes);
+        //Convert End Time
+        const [end_hours, end_minutes] = course.data.endTime.split(":");
+        const endTmp = new Date(1970, 0, 1, end_hours, end_minutes);
 
-      // Format the time using Intl.DateTimeFormat
-      const endTime = endTmp.toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-      });
+        // Format the time using Intl.DateTimeFormat
+        const endTime = endTmp.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        });
 
-      const [baseEnd, upperEndMeridiem] = endTime.split(" ");
-      setConvertedEnd(`${baseEnd}${upperEndMeridiem.toLowerCase()}`);
+        const [baseEnd, upperEndMeridiem] = endTime.split(" ");
+        setConvertedEnd(`${baseEnd}${upperEndMeridiem.toLowerCase()}`);
+      }
     };
     // Call the logCourse function when the component is mounted
     convertTime();
