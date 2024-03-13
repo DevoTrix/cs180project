@@ -15,10 +15,20 @@ describe("drawer tests", () => {
   });
   it("My Courses should open another bar containing my classes over calendar when clicked", () => {
     cy.visit("http://localhost:3000/home");
+
+    cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
+    cy.get("input").type("cs111").type("{enter}");
+    cy.get(":nth-child(4) > .MuiPaper-root").click();
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").click();
+
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").type("{esc}");
+    cy.get("body").type("{esc}");
+
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("be.hidden");
     cy.get(":nth-child(3) > :nth-child(1) > .MuiButtonBase-root").click();
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
-    cy.log("still needs implementing");
+    cy.get(".css-0 > .MuiBox-root > .MuiPaper-root").should("exist");
+    // cy.log("still needs implementing");
     //  test if classes are contained in the bar
   });
   it("all courses should open another bar containing all classes over calendar when clicked", () => {
@@ -28,26 +38,55 @@ describe("drawer tests", () => {
     cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.get("input").should("exist");
-    // cy.intercept("POST", "http://localhost:5001/api/search").as("postRequest");
     cy.get("input").type("cs111").type("{enter}");
-    // cy.wait("@postRequest").then(({ request, response }) => {
-    //   // Assert the request details
-    //   expect(request.method).to.equal("POST");
-    //   expect(request.url).to.equal("http://localhost:5001/api/search");
-    //   // Assert the response if needed
-    //   expect(response.statusCode).to.equal(200);
-    //   // Optionally, assert response body or other properties
-    // });
-
     cy.get(":nth-child(3) > .MuiPaper-root").should("exist");
-    cy.log("still needs implementing");
+
     //  test if classes are contained in the bar
   });
   it("Add / delete should add the event to the calendar", () => {
     cy.visit("http://localhost:3000/home");
-    cy.log("still needs implementing");
+    cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
+    cy.get("input").type("cs111").type("{enter}");
+    cy.get(":nth-child(4) > .MuiPaper-root").click();
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").should("exist");
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").click();
+    // cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").type("{esc}");
+    cy.get(
+      ".fc-day-fri > .fc-timegrid-col-frame > :nth-child(2) > .fc-timegrid-event-harness ",
+    ).should("exist");
+    // cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
+    // cy.get("input").type("cs111").type("{enter}");
+    // cy.get(":nth-child(4) > .MuiPaper-root").click();
+    // cy.get(".css-hlnzui-MuiTypography-root > :nth-child(1)").should("exist");
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(1)").click();
+    cy.get(
+      ".fc-day-fri > .fc-timegrid-col-frame > :nth-child(2) > .fc-timegrid-event-harness >.fc-event > .fc-event-main > .fc-event-main-frame > .fc-event-time",
+    ).should("not.exist");
+    cy.log("Hello");
     // test if event is added
     //test if event is repeating correctly
+  });
+  it("you should be able to remove or re-add from the event on the calendar", () => {
+    cy.visit("http://localhost:3000/home");
+    cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
+    cy.get("input").type("cs111").type("{enter}");
+    cy.get(":nth-child(4) > .MuiPaper-root").click();
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").click();
+
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").type("{esc}");
+    cy.get("body").type("{esc}");
+    cy.get(
+      ".fc-day-fri > .fc-timegrid-col-frame > :nth-child(2) > .fc-timegrid-event-harness >.fc-event > .fc-event-main > .fc-event-main-frame > .fc-event-time ",
+    ).click();
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(1)").should("exist");
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(1)").click();
+    cy.get(
+      ".fc-day-fri > .fc-timegrid-col-frame > :nth-child(2) > .fc-timegrid-event-harness >.fc-event > .fc-event-main  ",
+    ).should("not.exist");
+    cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").click();
+    cy.get(
+      ".fc-day-fri > .fc-timegrid-col-frame > :nth-child(2) > .fc-timegrid-event-harness ",
+    ).should("exist");
   });
   it("logout should redirect back to quarter", () => {
     cy.visit("http://localhost:3000/home");
@@ -61,17 +100,5 @@ describe("calendar", () => {
   it("loads calendar", () => {
     cy.visit("http://localhost:3000/home");
     cy.get(".fc").should("exist");
-  });
-  it("adds events to the calendar correctly", () => {
-    cy.visit("http://localhost:3000/home");
-    cy.log("still needs implementing");
-    // test if event is added
-    //test if event is repeating correctly
-  });
-  it("able to create a custom event", () => {
-    cy.visit("http://localhost:3000/home");
-    cy.log("still needs implementing");
-    // test if event is added
-    //test if event is repeating correctly
   });
 });

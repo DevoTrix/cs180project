@@ -74,7 +74,7 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
   const addCourseCookie = () => {
     //course is stored inside cookie as a JSON
     //You need to use JSON.parse to retrieve the cookie as an object
-    Cookies.set(copiedCourse.data.courseId, JSON.stringify(course)); //Sets cookie course as JSON data
+    Cookies.set(copiedCourse.data.courseId, JSON.stringify(copiedCourse)); //Sets cookie course as JSON data
     console.log(copiedCourse); //Log the course as an object
     console.log(JSON.stringify(copiedCourse)); //Log course as a JSON (This is what is inside the cookie)
     console.log(JSON.parse(Cookies.get(copiedCourse.data.courseId))); //Log the course as an object FROM within the coookie
