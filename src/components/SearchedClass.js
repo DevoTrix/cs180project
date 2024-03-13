@@ -63,7 +63,7 @@ export default function SearchedClass(course) {
         "& > :not(style)": {
           m: 0.2,
           width: 600,
-          height: 95,
+          height: 120,
         },
         cursor: "pointer", // Add cursor style for clickability
       }}
