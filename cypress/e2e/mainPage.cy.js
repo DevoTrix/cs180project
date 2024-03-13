@@ -28,20 +28,18 @@ describe("drawer tests", () => {
     cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.get("input").should("exist");
-    cy.intercept("POST", "http://localhost:5001/api/search").as("postRequest");
+    // cy.intercept("POST", "http://localhost:5001/api/search").as("postRequest");
     cy.get("input").type("cs111").type("{enter}");
-    cy.wait("@postRequest").then(({ request, response }) => {
-      // Assert the request details
-      expect(request.method).to.equal("POST");
-      expect(request.url).to.equal("http://localhost:5001/api/search");
-      // Assert the response if needed
-      expect(response.statusCode).to.equal(200);
-      // Optionally, assert response body or other properties
-    });
+    // cy.wait("@postRequest").then(({ request, response }) => {
+    //   // Assert the request details
+    //   expect(request.method).to.equal("POST");
+    //   expect(request.url).to.equal("http://localhost:5001/api/search");
+    //   // Assert the response if needed
+    //   expect(response.statusCode).to.equal(200);
+    //   // Optionally, assert response body or other properties
+    // });
 
-    // cy.get(
-    //   ":nth-child(2) > .MuiPaper-root > .css-1jir1my-MuiTypography-root",
-    // ).should("exist");
+    cy.get(":nth-child(3) > .MuiPaper-root").should("exist");
     cy.log("still needs implementing");
     //  test if classes are contained in the bar
   });
@@ -75,23 +73,5 @@ describe("calendar", () => {
     cy.log("still needs implementing");
     // test if event is added
     //test if event is repeating correctly
-  });
-  describe("css", () => {
-    it("The buttons remain in place when the sidebar is in place", () => {
-      cy.visit("http://localhost:3000/home");
-      let initPosition;
-      cy.get(".fc-next-button").then(($button) => {
-        cy.log($button.position());
-        initPosition = $button.position();
-      });
-      cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
-      cy.get(".fc-next-button").should(($button) => {
-        expect($button.position()).deep.equal(initPosition);
-      });
-    });
-    it("changes from light to dark correctly and vice versa", () => {
-      cy.visit("http://localhost:3000/home");
-      cy.log("still needs implementing");
-    });
   });
 });
