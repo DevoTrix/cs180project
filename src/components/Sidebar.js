@@ -160,11 +160,11 @@ export default function Sidebar() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 5,
+              marginRight: 0,
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
@@ -277,7 +277,7 @@ export default function Sidebar() {
 
         <Divider />
         <List>
-          {["Logout", "Light/Dark Mode"].map((text, index) => (
+          {["Logout"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <Tooltip
                 title={text}
@@ -302,6 +302,7 @@ export default function Sidebar() {
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  href='/'
                 >
                   <ListItemIcon
                     sx={{
