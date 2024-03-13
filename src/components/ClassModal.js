@@ -14,9 +14,9 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import EventEmitter from './EventEmitter';
+import EventEmitter from "./EventEmitter";
 import Snackbar from "@mui/material/Snackbar";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 
 const style = {
   position: "absolute",
@@ -35,6 +35,7 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
   const [convertedEnd, setConvertedEnd] = React.useState("");
   const [addedAlert, setAddedAlert] = React.useState(false);
   const [deletedAlert, setDeletedAlert] = React.useState(false);
+  const [copiedCourse, setCopiedCourse] = React.useState(course);
 
   useEffect(() => {
     const convertTime = () => {
@@ -53,7 +54,7 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
       setConvertedStart(`${baseStart}${upperStartMeridiem.toLowerCase()}`);
 
       //Convert End Time
-      const [end_hours, end_minutes] = course.data.endTime.split(":");
+      const [end_hours, end_minutes] = copiedCourse.data.endTime.split(":");
       const endTmp = new Date(1970, 0, 1, end_hours, end_minutes);
 
       // Format the time using Intl.DateTimeFormat
@@ -70,31 +71,31 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
     convertTime();
   }, []); // Empty dependency array means this effect runs once
 
-  const addCourseCookie= () => {
+  const addCourseCookie = () => {
     //course is stored inside cookie as a JSON
     //You need to use JSON.parse to retrieve the cookie as an object
-    Cookies.set(course.data.courseId, JSON.stringify(course));  //Sets cookie course as JSON data
-    console.log(course)                                         //Log the course as an object
-    console.log(JSON.stringify(course));                        //Log course as a JSON (This is what is inside the cookie)
-    console.log(JSON.parse(Cookies.get(course.data.courseId))); //Log the course as an object FROM within the coookie
-    EventEmitter.dispatch('courseUpdated');
+    Cookies.set(copiedCourse.data.courseId, JSON.stringify(course)); //Sets cookie course as JSON data
+    console.log(copiedCourse); //Log the course as an object
+    console.log(JSON.stringify(copiedCourse)); //Log course as a JSON (This is what is inside the cookie)
+    console.log(JSON.parse(Cookies.get(copiedCourse.data.courseId))); //Log the course as an object FROM within the coookie
+    EventEmitter.dispatch("courseUpdated");
     setAddedAlert(true);
   };
 
   const removeCourseCookie = () => {
     //Deletes the cookie by courseId
-    Cookies.remove(course.data.courseId)
-    EventEmitter.dispatch('courseUpdated');
-    setDeletedAlert(true)
+    Cookies.remove(copiedCourse.data.courseId);
+    EventEmitter.dispatch("courseUpdated");
+    setDeletedAlert(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setAddedAlert(false);
     setDeletedAlert(false);
-  }
+  };
 
   return (
     <>
@@ -106,8 +107,8 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {course.data.Subject}
-            {course.data.CourseNum} - {course.data.courseName}
+            {copiedCourse.data.Subject}
+            {copiedCourse.data.CourseNum} - {copiedCourse.data.courseName}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <AccessTimeIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
@@ -115,27 +116,27 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <CalendarTodayIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
-            {course.data.days}
+            {copiedCourse.data.days}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <BusinessIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Location:{" "}
-            {course.data.building} Room {course.data.room}
+            <BusinessIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
+            Location: {copiedCourse.data.building} Room {copiedCourse.data.room}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <SchoolIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Professor:{" "}
-            {course.data.instructor}
+            <SchoolIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
+            Professor: {copiedCourse.data.instructor}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <BorderColorIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Class
-            Type: {course.data.LectureType}
+            <BorderColorIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
+            Class Type: {copiedCourse.data.LectureType}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <EventSeatIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Number
-            of Seats: {course.data.SeatCapacity}
+            of Seats: {copiedCourse.data.SeatCapacity}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <LanguageIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> CRN:{" "}
-            {course.data.courseId}
+            {copiedCourse.data.courseId}
           </Typography>
           <Typography sx={{ textAlign: "right" }}>
             <IconButton onClick={removeCourseCookie}>
@@ -147,17 +148,9 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
           </Typography>
         </Box>
       </Modal>
-      <Snackbar
-        open={addedAlert}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity="success"
-          variant="filled"
-        >
-          {`Added ${course.data.Subject}${course.data.CourseNum} - ${course.data.courseName}`}
+      <Snackbar open={addedAlert} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" variant="filled">
+          {`Added ${copiedCourse.data.Subject}${copiedCourse.data.CourseNum} - ${copiedCourse.data.courseName}`}
         </Alert>
       </Snackbar>
 
@@ -166,12 +159,8 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
         autoHideDuration={6000}
         onClose={handleClose}
       >
-        <Alert
-          onClose={handleClose}
-          severity="error"
-          variant="filled"
-        >
-          {`Deleted ${course.data.Subject}${course.data.CourseNum} - ${course.data.courseName}`}
+        <Alert onClose={handleClose} severity="error" variant="filled">
+          {`Deleted ${copiedCourse.data.Subject}${copiedCourse.data.CourseNum} - ${copiedCourse.data.courseName}`}
         </Alert>
       </Snackbar>
     </>
