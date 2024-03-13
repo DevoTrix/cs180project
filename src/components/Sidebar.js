@@ -19,6 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import SearchBar from "./SearchBar";
+import ListClasses from "./ListClasses";
 
 import Tooltip from "@mui/material/Tooltip";
 import TodayIcon from "@mui/icons-material/Today";
@@ -103,8 +104,13 @@ export default function Sidebar() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const toggleSecondaryDrawer = (isOpen) => () => {
     setSecondaryDrawerOpen(isOpen);
+    //console.log(isOpen)
+
     if (!isOpen) {
-      setShowSearchBar(false); // hide the search bar when the drawer closes
+      //[Bug Soln] : delays MyClasses list from showing immediately after clicking off searchbar page
+      setTimeout(() => {
+        setShowSearchBar(false); // hide the search bar when the drawer closes
+      }, 500)
     }
   };
 
@@ -132,9 +138,13 @@ export default function Sidebar() {
     //if (index === 0) { setOpen(true); }
     if (index === 0) {
       setSecondaryDrawerOpen(true);
+      setShowSearchBar(false);
+      //console.log('inside render: set to true')
     }
     if (index === 1) {
       setShowSearchBar(true);
+      setSecondaryDrawerOpen(false);
+      //console.log("index is 1: ", index)
     }
     //else if  (index === 1) { alert('Add/Del Coruses');}
   }
@@ -150,11 +160,11 @@ export default function Sidebar() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 5,
+              marginRight: 0,
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Web Scraperz: UCR Class Scheduler
@@ -258,6 +268,8 @@ export default function Sidebar() {
               // />
               <SearchBar />
             )}
+            {/* secondaryDrawerOpen var here : My Classes List*/}
+            {!showSearchBar && <ListClasses />}
             <Typography variant="h6" noWrap component="div"></Typography>
             {/* put stuff here */}
           </Box>
@@ -265,7 +277,7 @@ export default function Sidebar() {
 
         <Divider />
         <List>
-          {["Logout", "Light/Dark Mode"].map((text, index) => (
+          {["Logout"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <Tooltip
                 title={text}
@@ -290,6 +302,7 @@ export default function Sidebar() {
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  href='/'
                 >
                   <ListItemIcon
                     sx={{

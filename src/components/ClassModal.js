@@ -15,6 +15,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import EventEmitter from './EventEmitter';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from '@mui/material/Alert';
 
 const style = {
   position: "absolute",
@@ -31,6 +33,8 @@ const style = {
 export default function ClassModal({ course, handleOnClose, isModalOpen }) {
   const [convertedStart, setConvertedStart] = React.useState("");
   const [convertedEnd, setConvertedEnd] = React.useState("");
+  const [addedAlert, setAddedAlert] = React.useState(false);
+  const [deletedAlert, setDeletedAlert] = React.useState(false);
 
   useEffect(() => {
     const convertTime = () => {
@@ -74,65 +78,102 @@ export default function ClassModal({ course, handleOnClose, isModalOpen }) {
     console.log(JSON.stringify(course));                        //Log course as a JSON (This is what is inside the cookie)
     console.log(JSON.parse(Cookies.get(course.data.courseId))); //Log the course as an object FROM within the coookie
     EventEmitter.dispatch('courseUpdated');
-
+    setAddedAlert(true);
   };
 
   const removeCourseCookie = () => {
     //Deletes the cookie by courseId
     Cookies.remove(course.data.courseId)
     EventEmitter.dispatch('courseUpdated');
-
+    setDeletedAlert(true)
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAddedAlert(false);
+    setDeletedAlert(false);
+  }
+
   return (
-    <Modal
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      open={isModalOpen}
-      onClose={handleOnClose}
-    >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {course.data.Subject}
-          {course.data.CourseNum} - {course.data.courseName}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <AccessTimeIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
-          {convertedStart} - {convertedEnd}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <CalendarTodayIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
-          {course.data.days}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <BusinessIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Location:{" "}
-          {course.data.building} Room {course.data.room}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <SchoolIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Professor:{" "}
-          {course.data.instructor}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <BorderColorIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Class
-          Type: {course.data.LectureType}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <EventSeatIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Number
-          of Seats: {course.data.SeatCapacity}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <LanguageIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> CRN:{" "}
-          {course.data.courseId}
-        </Typography>
-        <Typography sx={{ textAlign: "right" }}>
-          <IconButton onClick={removeCourseCookie}>
-            <RemoveIcon />
-          </IconButton>
-          <IconButton onClick={addCourseCookie}>
-            <AddIcon />
-          </IconButton>
-        </Typography>
-      </Box>
-    </Modal>
+    <>
+      <Modal
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        open={isModalOpen}
+        onClose={handleOnClose}
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {course.data.Subject}
+            {course.data.CourseNum} - {course.data.courseName}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <AccessTimeIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
+            {convertedStart} - {convertedEnd}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <CalendarTodayIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} />{" "}
+            {course.data.days}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <BusinessIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Location:{" "}
+            {course.data.building} Room {course.data.room}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <SchoolIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Professor:{" "}
+            {course.data.instructor}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <BorderColorIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Class
+            Type: {course.data.LectureType}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <EventSeatIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> Number
+            of Seats: {course.data.SeatCapacity}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <LanguageIcon sx={{ fontSize: "1.4em", marginY: "-5px" }} /> CRN:{" "}
+            {course.data.courseId}
+          </Typography>
+          <Typography sx={{ textAlign: "right" }}>
+            <IconButton onClick={removeCourseCookie}>
+              <RemoveIcon />
+            </IconButton>
+            <IconButton onClick={addCourseCookie}>
+              <AddIcon />
+            </IconButton>
+          </Typography>
+        </Box>
+      </Modal>
+      <Snackbar
+        open={addedAlert}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+        >
+          {`Added ${course.data.Subject}${course.data.CourseNum} - ${course.data.courseName}`}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={deletedAlert}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          variant="filled"
+        >
+          {`Deleted ${course.data.Subject}${course.data.CourseNum} - ${course.data.courseName}`}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }

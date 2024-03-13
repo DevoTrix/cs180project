@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import SearchedClass from "./SearchedClass";
+import { Typography } from "@mui/material";
 
 export default function SearchBar() {
   const CHARACTER_LIMIT = 15;
@@ -40,6 +41,7 @@ export default function SearchBar() {
         "& > :not(style)": { m: 1, width: "25ch" },
       }}
     >
+      <Typography variant="h5" style={{ padding: '2px', textAlign: 'left', textDecoration: 'underline' }}>Add/Delete Courses:</Typography>
       <TextField
         id="outlined-size-small"
         label="Search Classes"
