@@ -41,7 +41,29 @@ while [ $page_offset -lt $total_records ]; do
     -H "Sec-GPC: $sec_gpc" \
     --compressed)
 
-  echo "$response" > "$filename"  # Save to a new file for each response
+  # response and error status test
+  if [ "$http_status" = "200" ] || [ "$http_status" = "" ]; then
+    echo "Successfully fetched data for offset $page_offset."
+  else
+    echo "Failed to fetch data for offset $page_offset. Status was $http_status."
+    exit 1
+    # handle specific error codes if needed
+    case $http_status in
+      404)
+        echo "ERROR: Page not found..."
+        exit 1
+        ;;
+      500)
+        echo "ERROR: Internal server error. Try later..."
+        exit 1
+        ;;
+      *)
+        echo "ERROR: Unhandled status..."
+        exit 1
+        ;;
+    esac
+  fi
+  echo "$response" > "$filename"  # save to a new file for each response
 
   let page_offset+=page_max_size
 
