@@ -3,7 +3,7 @@ describe("drawer tests", () => {
     cy.visit("http://localhost:3000/home");
     cy.get(".MuiToolbar-root > .MuiButtonBase-root").should("not.be.hidden");
   });
-  it("opens drawer", () => {
+  it("the main drawer should open. ", () => {
     cy.visit("http://localhost:3000/home");
     cy.get(
       ":nth-child(3) > :nth-child(1) > .MuiButtonBase-root > .MuiListItemText-root > .MuiTypography-root",
@@ -17,7 +17,7 @@ describe("drawer tests", () => {
     cy.visit("http://localhost:3000/home");
 
     cy.get(":nth-child(3) > :nth-child(2) > .MuiButtonBase-root").click();
-    cy.get("input").type("cs111").type("{enter}");
+    cy.get("input").type("cs141").type("{enter}");
     cy.get(":nth-child(4) > .MuiPaper-root").click();
     cy.get(".css-hlnzui-MuiTypography-root > :nth-child(2)").click();
 
@@ -39,9 +39,14 @@ describe("drawer tests", () => {
     cy.get(".MuiDrawer-modal > .MuiPaper-root").should("not.be.hidden");
     cy.get("input").should("exist");
     cy.get("input").type("cs111").type("{enter}");
-    cy.get(":nth-child(3) > .MuiPaper-root").should("exist");
-
+    cy.get(":nth-child(2) > .MuiPaper-root").should("exist");
+    cy.get("input").clear();
+    cy.get("input").type("cs141").type("{enter}");
+    cy.get(":nth-child(2) > .MuiPaper-root").should("exist");
     //  test if classes are contained in the bar
+  });
+  it("be able to add multiple classes at once", () => {
+    cy.visit("http://localhost:3000/home");
   });
   it("Add / delete should add the event to the calendar", () => {
     cy.visit("http://localhost:3000/home");
