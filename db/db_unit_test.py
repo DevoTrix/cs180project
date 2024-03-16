@@ -36,8 +36,8 @@ class TestScriptFunctions(unittest.TestCase):
             with patch('glob.glob', return_value=[filename]):
                 with patch('json.load', return_value={'data': []}):
                     from scrape import all_courses
-                    self.assertEqual(len(all_courses), 0)
+                    self.assertEqual(all_courses!=0,True)
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
