@@ -39,11 +39,17 @@ while [ $page_offset -lt $total_records ]; do
     -H "Sec-Fetch-Mode: $sec_fetch_mode" \
     -H "Sec-Fetch-Site: $sec_fetch_site" \
     -H "Sec-GPC: $sec_gpc" \
-    --compressed)
+    --compressed \
+    -w "\nHTTP_STATUS=%{http_code}")
 
+
+  http_status=$(echo "$response" | tail -n1 | cut -d'=' -f2)
+  response=$(echo "$response" | head -n-1)
+  
   # response and error status test
   if [ "$http_status" = "200" ] || [ "$http_status" = "" ]; then
     echo "Successfully fetched data for offset $page_offset."
+    echo "$http_status"
   else
     echo "Failed to fetch data for offset $page_offset. Status was $http_status."
     exit 1
